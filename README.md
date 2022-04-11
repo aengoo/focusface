@@ -90,6 +90,21 @@ $ pip install -r requirements.txt
 
 ------
 
+## Loading Processes
+
+1. `./detector/init.py` Detector를 로드합니다.
+   - 고정 해상도 입력 설정 및 비훈련 모드 활성화
+   - 입력된 파라미터에 맞게 네트워크(`re50` or `mnet`)를 장치(`cpu` or `cuda`)에 로드합니다.
+2. `./identifier/init.py` Identifier를 로드합니다.
+   - `embedding_loader.py` 에서 DB(`*.csv`)를 읽어 타겟의 얼굴 임베딩을 로드합니다.
+   - 임베딩을 읽는 과정에서 자동으로 `sha256 hash`를 대조하여 무결성 검사를 실시합니다. 
+   - 무결성 검사 결과 결함이 있는 안면 임베딩은 다시 생성합니다.
+   - DB 로드 결과를 FaceComparer 객체에 전달하고 로드를 완료합니다.
+
+3. `SORT` 로드 및 `cv2.VideoCapture`를 설정합니다.
+
+------
+
 ## References
 
 - [RetinaFace (mxnet)](https://github.com/deepinsight/insightface/tree/master/RetinaFace)
