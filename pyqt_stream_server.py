@@ -5,7 +5,7 @@ from PyQt5.QtGui import *
 from PyQt5 import uic, QtCore
 from general import *
 from cmdl_stream_server import *
-
+import asyncio
 form_class = uic.loadUiType("./focusface.ui")[0]
 
 
@@ -54,6 +54,9 @@ class MainWindow(QMainWindow, form_class):
         self.progressBar.setValue(0)
         self.runPushButton.clicked.connect(self.run_selected_process)
 
+        self.model = None
+        self.model_clutch = False
+
     def reset_arguments(self):
         """
         TODO// yaml 이나 config python 파일에서 기본세팅 읽어오기
@@ -86,12 +89,21 @@ class MainWindow(QMainWindow, form_class):
                 self.opt_dict.update({k: self.ui_dict[k].value()})
 
     def run_selected_process(self):
-        if self.lockOnButton.isChecked():
+        if self.lockOnButton.isChecked() and self.model:
             if self.modeRadioButton_1.isChecked():
-                self.run_stream_process()
+                self.model_clutch = True
+                while self.model_clutch:
+                    self.model.run()
             else:
                 pass  # TODO// evaluator 구현 필요
-
+        else:
+            self.model_clutch = False
+            pass
+    """
+    async def run_model(self):
+        while self.model_clutch:
+            self.model.run()
+    """
     def run_stream_process(self):
         """
         TODO// 스트림 프로세스 실행 (라디오 버튼 옵션 체크 하고 ㄱㄱ해야함)
@@ -134,11 +146,13 @@ class MainWindow(QMainWindow, form_class):
             self.outputGroupBox.setDisabled(True)
             self.runPushButton.setEnabled(True)
             self.read_all_ui()
+            self.model = Streamer(OptStruct(**self.opt_dict))  # 로딩 시작
         else:
             self.optFrame.setEnabled(True)
             self.modeGroupBox.setEnabled(True)
             self.outputGroupBox.setEnabled(True)
             self.runPushButton.setDisabled(True)
+            self.model = None  # clear
 
 
 if __name__ == "__main__":
