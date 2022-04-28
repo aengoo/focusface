@@ -134,6 +134,54 @@ cfg_opt_dict = {
 
 ------
 
+## TODOs
+
+### General
+
+- ​	bounding_box 종류 [norm, abs]에 따른 클래스 추가 및 적용
+- ​	Evaluation 모드 추가(후순위)
+
+
+
+### Detector
+
+- ​	GPU 및 CPU 사용설정 추가
+
+
+
+### Identifier
+
+- ​	Embedding Loader 하드코딩 제거
+- ​	n_face 지정 오류 exception 코드 개선
+- ​	csv_seed 생성기 사용성 개선
+- ​	기존 encode_face.py 필요성 확인 및 제거
+
+
+
+### UI
+
+- 메인 루프 비동기화 해서 RUN/STOP 기능 활성화
+- 로딩 프로세스바 및 스테이터스 메시지(싱글톤)
+- 스테이터스 메시지 출력 (싱글톤)
+
+
+
+### Stream-Server
+
+- 메인 기능 객체화 완료하고 기존 코드 제거
+- Redis 출력 기능 추가
+- IP카메라모드 추가
+
+
+
+### Web-Server
+
+- 바뀐 정보 포맷에 맞게 UI 및 서버 코드 수정
+
+
+
+------
+
 ## References
 
 - [RetinaFace (mxnet)](https://github.com/deepinsight/insightface/tree/master/RetinaFace)
