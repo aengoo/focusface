@@ -100,8 +100,37 @@ $ pip install -r requirements.txt
    - 임베딩을 읽는 과정에서 자동으로 `sha256 hash`를 대조하여 무결성 검사를 실시합니다. 
    - 무결성 검사 결과 결함이 있는 안면 임베딩은 다시 생성합니다.
    - DB 로드 결과를 FaceComparer 객체에 전달하고 로드를 완료합니다.
-
 3. `SORT` 로드 및 `cv2.VideoCapture`를 설정합니다.
+
+------
+
+## Arguments
+
+.`/general/configs.py` 참고
+
+```
+# at general/configs.py
+# default value
+
+cfg_opt_dict = {
+    'data': '../data',
+    'vid-res': 'adaptive',
+    'det-model': 're50',
+    'det-weight': 'weights/Resnet50_Final.pth',
+    'box-ratio': 1.30,
+    'down': 2,
+    'conf-thresh': 0.50,
+    'suspect-db': 'target/suspect_db_example.csv',
+    's-faces': 'target/faces-400',
+    'n-faces': 20,
+    'idt-model': 'small',
+    'iou-thresh': 0.30,
+    'insense': 15,
+    'criteria': 4.50,
+    'redis-port': 6379,
+    'output': 'opencv'
+}
+```
 
 ------
 
