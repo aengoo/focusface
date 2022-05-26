@@ -15,7 +15,7 @@ def random_combination(iterable, r):
 
 
 class EncodeFace:
-    def __init__(self, target_path, other_path, n=0, model: str = 'small', tolerance=0.6):
+    def __init__(self, target_path='', other_path='', n=0, model: str = 'small', tolerance=0.6):
         self.model = model
 
         self.target_encodings, self.target_names = self.encode_all(target_path)
@@ -25,6 +25,12 @@ class EncodeFace:
         self.tolerance = tolerance
         self.temp_encodings = []
         self.temp_names = []
+
+    def encode_one(self, path):
+        # img = face_recognition.load_image_file(str(os.path.join(path_face_dir, face_img)))
+        img = face_recognition.load_image_file(path)
+        encoding = face_recognition.face_encodings(img, model=self.model)
+        return encoding
 
     def encode_all(self, path):
         face_encodings = []
