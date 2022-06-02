@@ -1,6 +1,4 @@
-import asyncio
 import sys
-
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from cmdl_stream_server import *
@@ -100,7 +98,6 @@ class MainWindow(QMainWindow, form_class):
         self.lockOnButton.setEnabled(True)
         self.runPushButton.toggle()
         self.runPushButton.setEnabled(True)
-
 
     def res_selected_adapt(self):
         if str(self.comboBox_1_2.currentText()) == 'adaptive (initialized by data)':
