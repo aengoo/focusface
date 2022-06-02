@@ -56,8 +56,6 @@ class MainWindow(QMainWindow, form_class):
 
     def reset_arguments(self):
         """
-        TODO// yaml 이나 config python 파일에서 기본세팅 읽어오기
-        argparse에서도 호환가능한 파일로 구성하거나, 여기있는 옵션을 메인 동작 코드에 넘겨줄수 있어야 함.
         """
         default_opt_dict = cfg_opt_dict
         for k in self.ui_dict.keys():
@@ -91,11 +89,13 @@ class MainWindow(QMainWindow, form_class):
             if self.modeRadioButton_1.isChecked():
                 clutch = True
                 while clutch:
-                    clutch = self.model.run()
+                    clutch, cost = self.model.run()
+                    self.statusLabel.setText(f'Running... \nFPS: {1./cost:.1f}')
             else:
-                pass  # TODO// evaluator 구현 필요
+                pass  # TODO// evaluator 구현
         else:
             pass
+        self.statusLabel.setText('waiting...')
         self.runPushButton.setDisabled(True)
         self.lockOnButton.setEnabled(True)
         self.runPushButton.toggle()
@@ -132,19 +132,27 @@ class MainWindow(QMainWindow, form_class):
             self.opt_dict.update({'output': 'redis'})
 
     def lock_on_settings(self):
-        if self.lockOnButton.isChecked():
+        if self.lockOnButton.isChecked():  # 모델 로드
+            self.progressBar.setValue(50)  # 시작이 반
             self.optFrame.setDisabled(True)
             self.modeGroupBox.setDisabled(True)
             self.outputGroupBox.setDisabled(True)
-            self.runPushButton.setEnabled(True)
-            self.read_all_ui()
+            self.read_all_ui()  # UI에 기입된 정보 읽어들이기
             self.model = StreamServer(OptStruct(**self.opt_dict))  # 로딩 시작
-        else:
+            for i in range(50):  # 의미없는 프로그레스바 애니메이션
+                self.progressBar.setValue(i+51)
+                time.sleep(0.003)
+            self.loaderLabel.setText("Loaded.")
+            self.runPushButton.setEnabled(True)
+
+        else:  # 로드된 메모리 해제
+            self.runPushButton.setDisabled(True)
             self.optFrame.setEnabled(True)
             self.modeGroupBox.setEnabled(True)
             self.outputGroupBox.setEnabled(True)
-            self.runPushButton.setDisabled(True)
             self.model = None  # clear
+            self.progressBar.setValue(0)
+            self.loaderLabel.setText("waiting...")
 
 
 if __name__ == "__main__":

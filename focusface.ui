@@ -1906,13 +1906,13 @@
            <item>
             <widget class="QRadioButton" name="outputRadioButton_2">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="font">
               <font>
                <family>굴림</family>
                <pointsize>8</pointsize>
-               <strikeout>true</strikeout>
+               <strikeout>false</strikeout>
               </font>
              </property>
              <property name="text">

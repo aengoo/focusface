@@ -32,9 +32,8 @@ class EmbeddingLoader:
         if os.path.isfile(embed_db_path):
             self.df = pd.read_csv(embed_db_path, dtype=db_column_configs)
         else:
-            # TODO: 하코 제거!!!!!!
-            create_seed('../data/target', 'faces-17', 'faces-400', os.path.basename(embed_db_path))
-            self.df = pd.read_csv(embed_db_path, dtype=db_column_configs)
+            print('[ERROR] Can Not Find Embedding DB CSV File')
+            exit()
 
         self.df = self.df.fillna('N/A')
         self.df.insert(self.df.shape[1], 'CHECKSUM', [False] * self.df.shape[0], True)
@@ -45,14 +44,11 @@ class EmbeddingLoader:
         if n_faces:  # n_faces 입력받았으면
             target_number = self.df[self.df['IS_TARGET']].shape[0]
             if n_faces < target_number or n_faces > self.df.shape[0]:
-                print("[ERROR] n_faces is too small or large")
-                print(target_number)
-                print(self.df.shape[0])
-                exit()
-                # TODO: 예외처리 탈출 코드 좀더 이쁘게 작성...
-            else:
-                selected = random_combination(self.df[~(self.df['IS_TARGET'])].T.to_dict().items(), n_faces)
-                self.df = self.df[self.df['IS_TARGET']].append([i[1] for i in selected], ignore_index=True)
+                n_faces = target_number
+                print(f"[NOTICE] n_face changed as number of target faces: {target_number}")
+
+            selected = random_combination(self.df[~(self.df['IS_TARGET'])].T.to_dict().items(), n_faces)
+            self.df = self.df[self.df['IS_TARGET']].append([i[1] for i in selected], ignore_index=True)
         else:  # n_faces 입력 안받았으면 그냥 전체 다 돌리는걸로 취급, 아무것도안해도될듯
             pass
 

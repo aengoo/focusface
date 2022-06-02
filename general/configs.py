@@ -7,11 +7,11 @@ AVAILABLE_RESOLUTIONS = {
 
 cfg_opt_dict = {
     'data': '../data',
-    'vid-res': 'adaptive',
+    'vid-res': 'HD',
     'det-model': 're50',
     'det-weight': 'weights/Resnet50_Final.pth',
     'box-ratio': 1.30,
-    'down': 2,
+    'down': 4,
     'conf-thresh': 0.50,
     'suspect-db': 'target/suspect_db_example.csv',
     's-faces': 'target/faces-400',

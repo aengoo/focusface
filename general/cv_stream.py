@@ -13,7 +13,7 @@ class StreamOut(metaclass=ABCMeta):
         return True  # keep iteration if True
 
     @abstractmethod
-    def push_face(self, img: np.ndarray):
+    def push_face(self, img: np.ndarray, idt):
         pass
 
 
@@ -31,7 +31,7 @@ class CvStreamOut(StreamOut):
             return False
         return True
 
-    def push_face(self, img: np.ndarray):
+    def push_face(self, img: np.ndarray, idt):
         pass
 
 

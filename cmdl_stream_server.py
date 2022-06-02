@@ -16,7 +16,6 @@ import time
 
 class StreamServer:
     def __init__(self, opt):
-        print(opt)
         self.det = Detector(weight_path=os.path.join(opt.data, opt.det_weight),
                             model=opt.det_model,
                             conf_thresh=opt.conf_thresh)
@@ -39,6 +38,7 @@ class StreamServer:
         self.opt = opt
 
     def run(self):
+        start = time.time()
         ret, img_raw = self.frame_loader.get_frame()
         if ret:
             if self.opt.down != 1:
@@ -62,14 +62,15 @@ class StreamServer:
                     plot_one_box(box, img_push)
                 if ret_report:
                     tmp_box = suspect.get_last_box()
-                    self.stream_out.push_face(img_raw[tmp_box[1]:tmp_box[3], tmp_box[0]:tmp_box[2]])
-                    self.stream_out.push_info(
-                        self.fdf[self.fdf['ID'] == self.spt_entry.suspect_dict[tid].get_face_id()].to_dict('records')[0])
+                    face_id = self.spt_entry.suspect_dict[tid].get_face_id()
+                    self.stream_out.push_face(img_raw[tmp_box[1]:tmp_box[3], tmp_box[0]:tmp_box[2]], face_id)
+                    self.stream_out.push_info(self.fdf[self.fdf['ID'] == face_id].to_dict('records')[0])
                     suspect.set_reported()
 
             for box, score, tid, fid, face_dist, face_std_score in identified:
                 plot_tp_box(box, img_push, 0.5, 'g')
-            return self.stream_out.push_frame(img_push)
+            end = time.time()
+            return self.stream_out.push_frame(img_push), end-start
 
         else:
             print("no camera detected")
