@@ -64,7 +64,7 @@ class EmbeddingLoader:
             self.df.at[idx, 'CHECKSUM'] = sha256_checksum(row['MUGSHOT_PATH'], self._model)
 
     def _regen_embeddings(self):
-        print("Generating Face Embeddings...", end="")
+        print("Generating(Checking) Face Embeddings...", end="")
         for cnt in range(3):
             for mugshot_path in self.df[~(self.df['CHECKSUM'])]['MUGSHOT_PATH'].values:
                 file_name, file_dir = (os.path.split(mugshot_path)[-1], os.path.join(*os.path.split(mugshot_path)[:-1]))

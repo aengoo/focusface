@@ -10,7 +10,7 @@ class StreamOut(metaclass=ABCMeta):
 
     @abstractmethod
     def push_frame(self, img: np.ndarray):
-        pass
+        return True  # keep iteration if True
 
     @abstractmethod
     def push_face(self, img: np.ndarray):
@@ -27,7 +27,9 @@ class CvStreamOut(StreamOut):
     def push_frame(self, img: np.ndarray):
         cv2.imshow('test', img)
         if cv2.waitKey(1) == ord('q'):
-            raise StopIteration
+            cv2.destroyAllWindows()
+            return False
+        return True
 
     def push_face(self, img: np.ndarray):
         pass

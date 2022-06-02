@@ -1,11 +1,9 @@
+import asyncio
 import sys
 
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5 import uic, QtCore
-from general import *
+from PyQt5 import uic
 from cmdl_stream_server import *
-import asyncio
 form_class = uic.loadUiType("./focusface.ui")[0]
 
 
@@ -55,7 +53,6 @@ class MainWindow(QMainWindow, form_class):
         self.runPushButton.clicked.connect(self.run_selected_process)
 
         self.model = None
-        self.model_clutch = False
 
     def reset_arguments(self):
         """
@@ -89,26 +86,21 @@ class MainWindow(QMainWindow, form_class):
                 self.opt_dict.update({k: self.ui_dict[k].value()})
 
     def run_selected_process(self):
+        self.lockOnButton.setDisabled(True)
         if self.lockOnButton.isChecked() and self.model:
             if self.modeRadioButton_1.isChecked():
-                self.model_clutch = True
-                while self.model_clutch:
-                    self.model.run()
+                clutch = True
+                while clutch:
+                    clutch = self.model.run()
             else:
                 pass  # TODO// evaluator 구현 필요
         else:
-            self.model_clutch = False
             pass
-    """
-    async def run_model(self):
-        while self.model_clutch:
-            self.model.run()
-    """
-    def run_stream_process(self):
-        """
-        TODO// 스트림 프로세스 실행 (라디오 버튼 옵션 체크 하고 ㄱㄱ해야함)
-        """
-        run_stream_server(OptStruct(**self.opt_dict))
+        self.runPushButton.setDisabled(True)
+        self.lockOnButton.setEnabled(True)
+        self.runPushButton.toggle()
+        self.runPushButton.setEnabled(True)
+
 
     def res_selected_adapt(self):
         if str(self.comboBox_1_2.currentText()) == 'adaptive (initialized by data)':
@@ -146,7 +138,7 @@ class MainWindow(QMainWindow, form_class):
             self.outputGroupBox.setDisabled(True)
             self.runPushButton.setEnabled(True)
             self.read_all_ui()
-            self.model = Streamer(OptStruct(**self.opt_dict))  # 로딩 시작
+            self.model = StreamServer(OptStruct(**self.opt_dict))  # 로딩 시작
         else:
             self.optFrame.setEnabled(True)
             self.modeGroupBox.setEnabled(True)

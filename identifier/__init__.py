@@ -25,16 +25,30 @@ class Identifier:
     def __init__(self, embed_db_path: str, n: int, idt_res: str, box_ratio: float, is_eval=False, model: str = 'small'):
         """
         얼굴 식별을 위한 각 모듈을 미리 로드합니다.
-        EmbeddingLoader는 DB에서 미리 추출된 얼굴 특징 임베딩을 로드합니다. 추출되어 있는 임베딩이 존재하지 않으면 생성하는 작업을 수행합니다.
-        FaceComparer는 입력되는 매 프레임에서 입력되는 얼굴 프레임이 DB의 얼굴 특징과 비교하여 결론을 도출합니다. 얼굴 특징 추출을 위한 인코더가 로드됩니다.
+
+        EmbeddingLoader는 DB에서 미리 추출된 얼굴 특징 임베딩을 로드합니다.
+
+        추출되어 있는 임베딩이 존재하지 않으면 생성하는 작업을 수행합니다.
+
+        FaceComparer는 입력되는 매 프레임에서 입력되는 얼굴 프레임이 DB의 얼굴 특징과 비교하여 결론을 도출합니다.
+
+        얼굴 특징 추출을 위한 인코더가 로드됩니다.
+
         입력 영상의 지나친 해상도는 매우 큰 지연시간을 야기하기 때문에 최대 해상도 제한을 둡니다.
 
-        :param embed_db_path:
-        :param n:
-        :param idt_res:
-        :param box_ratio:
-        :param is_eval:
-        :param model:
+
+
+        *param* `embed_db_path`: text
+
+        *param* `n`:
+
+        *param* `idt_res`:
+
+        *param* `box_ratio`:
+
+        *param* `is_eval`:
+
+        *param* `model`:
         """
         self._ebd_loader = EmbeddingLoader(embed_db_path, idt_model=model, n_faces=n)
         self.ebd_dict = self._ebd_loader.ebd_dict

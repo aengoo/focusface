@@ -12,7 +12,7 @@ class RedisStreamOut(StreamOut):
         pass
 
     def push_frame(self, img: np.ndarray):
-        pass
+        return True
 
     def push_face(self, img: np.ndarray):
         pass
