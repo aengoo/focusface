@@ -2,7 +2,17 @@ from typing import Tuple
 
 
 class SuspectInterface:
+    """
+    용의자 객체 형태를 정의합니다.
+    주요 기능을 제외한 연산자 오버라이딩을 위주로 구현한 클래스입니다.
+    """
     def __init__(self, trk_id: int, face_id: str, init_score: float, bbox: list):
+        """
+        :param trk_id: 트래킹 ID (tracking index)
+        :param face_id: 얼굴 ID (인물 ID)
+        :param init_score: 초기화용 부여 점수
+        :param bbox: 탐지 상자 (좌표)
+        """
         self._tid = trk_id
         self._fid = face_id
         self._score = init_score
@@ -18,6 +28,7 @@ class SuspectInterface:
     def __int__(self):
         return self._tid
 
+    # 점수 계산을 위한 연산자 오버라이딩
     def __gt__(self, other: float):
         return self._score > other
 
@@ -76,10 +87,19 @@ class SuspectFace(SuspectInterface):
 
 class SuspectEntry:
     def __init__(self, thresh: float):
+        """
+        용의자 목록 관리를 위한 객체입니다.
+        :param thresh: 결론 도출을 위한 임계값을 설정합니다. 낮을수록 시스템이 민감하게 작동합니다. 일반적으로 10~20 정도로 세팅하는 것이 적당합니다.
+        """
         self.suspect_dict = {}
         self.thresh = thresh
 
     def register(self, suspect: SuspectFace) -> Tuple[bool, SuspectFace]:
+        """
+        용의자 객체를 등록합니다.
+        :param suspect: 등록할 용의자 객체를 입력받습니다.
+        :return: 보고 가능한 상태 여부, 용의자 목록을 반환합니다.
+        """
         k = int(suspect)
         if k in self.suspect_dict:
             self.suspect_dict[k] += suspect

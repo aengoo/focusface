@@ -2,7 +2,7 @@ from __future__ import print_function
 import argparse
 
 from detector import Detector
-from identifier import Identifier, plot_one_box
+from identifier import Identifier
 from tracker import Sort, score_board
 from general import *
 
@@ -11,6 +11,25 @@ import cv2 as cv
 import os
 import copy
 import time
+
+
+# code from github/ultralytics/yolov3/utils
+def plot_one_box(x, img, color=None, label: str = None, line_thickness=None):
+    """
+    이미지(img)의 xyxy좌표(x)상에 상자를 그립니다.
+    """
+    # Plots one bounding box on image img
+    tl = line_thickness or round(0.001 * (img.shape[0] + img.shape[1]) / 2) + 1  # line/font thickness
+    # color = color or [random.randint(0, 255) for _ in range(3)]
+    color = color or [0, 0, 255]
+    c1, c2 = (int(x[0]), int(x[1])), (int(x[2]), int(x[3]))
+    cv.rectangle(img, c1, c2, color, thickness=tl, lineType=cv.LINE_AA)
+    if label:
+        tf = max(tl - 1, 1)  # font thickness
+        t_size = cv.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[0]
+        c2 = c1[0] + t_size[0], c1[1] - t_size[1] - 3
+        cv.rectangle(img, c1, c2, color, -1, cv.LINE_AA)  # filled
+        cv.putText(img, label, (c1[0], c1[1] - 2), 0, tl / 3, [225, 255, 255], thickness=tf, lineType=cv.LINE_AA)
 
 
 class StreamServer:
@@ -26,7 +45,6 @@ class StreamServer:
                               n=opt.n_faces,
                               idt_res=opt.vid_res,
                               box_ratio=opt.box_ratio,
-                              is_eval=True,
                               model=opt.idt_model)
 
         # 식별기 객체로부터 DB 데이터프레임 획득
