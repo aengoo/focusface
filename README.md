@@ -31,15 +31,14 @@
 　　└　focusface.ui
 ```
 
-1. RTCDS_Project의 기본 디렉토리(■로 표기)를 구성합니다.
-2. 필요한 데이터(□로 표기)를 다운로드합니다. 
+1. Construct the directory path of RTCDS_Project (dirs marked with char '■' are required to be initilized with user's needs).
+2. Download the required data (marked with char '□')
    - `../data/target` : [download](https://drive.google.com/file/d/1lTmbSY6Ksne23LCK46bbkepJRYAX2p6w/view?usp=sharing) (unavailable for general user)
    - `../data/weights` : [official](https://drive.google.com/drive/folders/1oZRSG0ZegbVkVwUd8wUIQx8W7yfZ_ki1) / [our](https://drive.google.com/file/d/1rmGkQ11o7kn1Rdp5AKmRwbXI5v-kDmXb/view?usp=sharing)
 
-3. 사전 설정(★로 표기)을 확인하고 수정합니다. csv 파일 생성은 focusface/identifier/models/embedding_loader.py를 참고할 수 있습니다.
+3. Check and modify configurations (marked with ★). You can refer to `focusface/identifier/models/embedding_loader.py` to create a initial csv file.
 
-4. 실행에 필요한 환경 설정을 마치고 `****`_stream_server.py 중 하나를 실행합니다.
-
+4. After installation and setting required for execution, run one of `****`_stream_server.py.
 
 
 ------
@@ -92,21 +91,21 @@ $ pip install -r requirements.txt
 
 ## Loading Processes
 
-1. `./detector/init.py` Detector를 로드합니다.
-   - 고정 해상도 입력 설정 및 비훈련 모드 활성화
-   - 입력된 파라미터에 맞게 네트워크(`re50` or `mnet`)를 장치(`cpu` or `cuda`)에 로드합니다.
-2. `./identifier/init.py` Identifier를 로드합니다.
-   - `embedding_loader.py` 에서 DB(`*.csv`)를 읽어 타겟의 얼굴 임베딩을 로드합니다.
-   - 임베딩을 읽는 과정에서 자동으로 `sha256 hash`를 대조하여 무결성 검사를 실시합니다. 
-   - 무결성 검사 결과 결함이 있는 안면 임베딩은 다시 생성합니다.
-   - DB 로드 결과를 FaceComparer 객체에 전달하고 로드를 완료합니다.
-3. `SORT` 로드 및 `cv2.VideoCapture`를 설정합니다.
+1. Load Detector by importing module `detector`
+   - Set fixed input resolution and disable training mode (set grad false)
+   - Loads the network (`re50` or `mnet`) onto the device (`cpu` or `cuda`) according to the entered parameters.
+2. Load Identifier by importing module `identifier`
+   - In `embedding_loader.py`, read the DB (`*.csv`) to load the target's face embedding.
+   - In the process of reading the embedding, an integrity check is performed by automatically matching `sha256 hash`.
+   - Regenerate face embeddings that are defective as a result of the integrity check.
+   - Pass the DB load result to the FaceComparer object and complete the load.
+3. Load `SORT` and set `cv2.VideoCapture`.
 
 ------
 
 ## Arguments
 
-.`/general/configs.py` 참고
+refer to `/general/configs.py`
 
 ```
 # at general/configs.py
@@ -134,7 +133,7 @@ cfg_opt_dict = {
 
 ------
 
-## References
+## Citation
 
 - [RetinaFace (mxnet)](https://github.com/deepinsight/insightface/tree/master/RetinaFace)
 - [RetinaFace (pytorch)](https://github.com/biubug6/Pytorch_Retinaface)
