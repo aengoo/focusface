@@ -84,6 +84,9 @@ class SuspectFace(SuspectInterface):
     def is_reported(self) -> bool:
         return self._reported
 
+    def get_fid(self):
+        return self._fid
+
 
 class SuspectEntry:
     def __init__(self, thresh: float):
@@ -109,6 +112,13 @@ class SuspectEntry:
         if self.suspect_dict[k] >= self.thresh:
             self.suspect_dict[k].fix()
         return self.suspect_dict[k].is_fixed() and not self.suspect_dict[k].is_reported(), self.suspect_dict[k]
+
+    def get_reported_suspects(self):
+        sus_list = []
+        for sus in self.suspect_dict.values():
+            if sus.is_reported:
+                sus_list.append(sus.get_fid())
+        return tuple(set(sus_list))
 
 
 if __name__ == '__main__':

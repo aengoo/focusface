@@ -1,3 +1,4 @@
+import os
 from abc import *
 from .configs import *
 import cv2 as cv
@@ -43,4 +44,22 @@ class StreamLoader(Loader):
         """
         :return: 단일 프레임을 반환합니다.
         """
+        return self._cap.read()
+
+
+class VideoLoader(Loader):
+    def __init__(self, vid_res, downsample, video_path, label_path):
+        vid_list = os.listdir(video_path)
+        label_list = os.listdir(label_path)
+        trimmed_label_list = [label_name.replace('.txt', '') for label_name in label_list]
+
+        if vid_res == "adaptive":
+            if downsample != 1:
+                print("[Alert] opt[--vid-res] is \'adaptive\', so opt[down] is disabled.")
+        else:
+            # 해상도를 세팅합니다.
+            self._cap.set(cv.CAP_PROP_FRAME_WIDTH, AVAILABLE_RESOLUTIONS[vid_res][1])
+            self._cap.set(cv.CAP_PROP_FRAME_HEIGHT, AVAILABLE_RESOLUTIONS[vid_res][0])
+
+    def get_frame(self):
         return self._cap.read()

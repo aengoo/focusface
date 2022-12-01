@@ -122,7 +122,7 @@ class EmbeddingLoader:
             ebd_path = '.'.join(mugshot_path.split('.')[:-1] + [self._model + '.ebd'])
             with open(ebd_path, 'r') as e:
                 line = e.read()
-                ebd_arr = np.array([float(t) for t in line.replace('\n', '').split(',')], dtype='float64')
+                ebd_arr = np.array([float(t) for t in line.replace('\n', '').split(',')], dtype=np.float64)
                 self.ebd_dict.update({i: ebd_arr})
         print("Complete!!")
 

@@ -8,7 +8,7 @@ from identifier.models.embedding_loader import create_seed
 디렉토리 구조를 준수하여 구성이 완료되었다면, 이 코드를 실행하여 CSV 파일을 생성해야 합니다. 
 """
 
-base = '../data/target'  # 데이터셋 경로
+base = 'D:/dataset_backup/focusface_data/target'  # 데이터셋 경로
 target_face_path = 'faces-17'  # 찾고자 하는 얼굴 경로
 sample_face_path = 'faces-400'  # 허수 얼굴 경로
 create_seed(base, target_face_path, sample_face_path)  # import 되어 있는 코드에서 설명 참고 바랍니다.

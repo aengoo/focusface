@@ -6,12 +6,15 @@ AVAILABLE_RESOLUTIONS = {
 }
 
 cfg_opt_dict = {
-    'data': '../data',
+    'data': 'D:/dataset_backup/focusface_data/',
     'vid-res': 'HD',
+    'vid-path': 'test/vid_final',
+    'label-path': 'test/label_final',
+    'out-path': 'output/',
     'det-model': 're50',
     'det-weight': 'weights/Resnet50_Final.pth',
     'box-ratio': 1.30,
-    'down': 4,
+    'down': 1,
     'conf-thresh': 0.50,
     'suspect-db': 'target/suspect_db_example.csv',
     's-faces': 'target/faces-400',

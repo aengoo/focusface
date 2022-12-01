@@ -78,7 +78,7 @@ class Identifier:
 
             cropped = img_idt[box[1]:box[3], box[0]:box[2]]
 
-            rs_x = 80
+            rs_x = 10
             # 얼굴 영역 이미지 사이즈를 약간 조정합니다. 최대 크기를 80으로 조정합니다.
             # 해당 얼굴과 DB를 대조하여 가장 유사항 얼굴 ID, 벡터거리, 표준점수를 반환받습니다.
             face_id, face_dist, face_std_score = self.comparer.compare_face(

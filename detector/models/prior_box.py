@@ -16,6 +16,9 @@ class PriorBox(object):
         self.name = "s"
 
     def forward(self):
+        """
+        원본
+        """
         anchors = []
         for k, f in enumerate(self.feature_maps):
             min_sizes = self.min_sizes[k]
@@ -35,6 +38,9 @@ class PriorBox(object):
         return output
 
     def vectorized_forward(self):
+        """
+        수정
+        """
         anchors = []
         for k, f in enumerate(self.feature_maps):
             min_size = self.min_sizes[k]

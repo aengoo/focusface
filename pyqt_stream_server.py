@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from cmdl_stream_server import *
-form_class = uic.loadUiType("./focusface.ui")[0]
+form_class = uic.loadUiType("./focusface_stream.ui")[0]
 
 
 class OptStruct:
@@ -130,15 +130,45 @@ class MainWindow(QMainWindow, form_class):
 
     def lock_on_settings(self):
         if self.lockOnButton.isChecked():  # 모델 로드
+            pb = -1
+            for i in range(25):  # 프로그레스바 애니메이션
+                pb += 1
+                self.progressBar.setValue(pb)
+                time.sleep(0.006)
+            for i in range(13):  # 프로그레스바 애니메이션
+                pb += 1
+                self.progressBar.setValue(pb)
+                time.sleep(0.012)
+            for i in range(7):  # 프로그레스바 애니메이션
+                pb += 1
+                self.progressBar.setValue(pb)
+                time.sleep(0.024)
+            for i in range(5):  # 프로그레스바 애니메이션
+                pb += 1
+                self.progressBar.setValue(pb)
+                time.sleep(0.048)
             self.progressBar.setValue(50)  # 시작이 반
             self.optFrame.setDisabled(True)
             self.modeGroupBox.setDisabled(True)
             self.outputGroupBox.setDisabled(True)
             self.read_all_ui()  # UI에 기입된 정보 읽어들이기
             self.model = StreamServer(OptStruct(**self.opt_dict))  # 로딩 시작
-            for i in range(50):  # 의미없는 프로그레스바 애니메이션
-                self.progressBar.setValue(i+51)
-                time.sleep(0.003)
+            for i in range(25):  # 프로그레스바 애니메이션
+                pb += 1
+                self.progressBar.setValue(pb)
+                time.sleep(0.012)
+            for i in range(13):  # 프로그레스바 애니메이션
+                pb += 1
+                self.progressBar.setValue(pb)
+                time.sleep(0.024)
+            for i in range(7):  # 프로그레스바 애니메이션
+                pb += 1
+                self.progressBar.setValue(pb)
+                time.sleep(0.064)
+            for i in range(6):  # 프로그레스바 애니메이션
+                pb += 1
+                self.progressBar.setValue(pb)
+                time.sleep(0.0128)
             self.loaderLabel.setText("Loaded.")
             self.runPushButton.setEnabled(True)
 
